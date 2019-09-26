@@ -4,6 +4,7 @@
 
       <div class="col-sm-5 col-xs-12">
         <img src="http://www.silviafrediani.it/angularjs_app/images/uploads/{{contattoIn.foto}}" style="width:100px;height:auto;">
+        <input type="file" (change)="onFileChange($event)" />
       </div>
       <!-- come mappare il contenuto della form sul modello dei dati? dobbiamo ricorrere al two-way data binding chiamando in causa la direttiva ngModel-->
       <div class="col-sm-5 col-xs-12">

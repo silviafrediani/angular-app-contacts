@@ -1,7 +1,6 @@
 import {Component, ViewChild, Input, Output, EventEmitter, OnInit, AfterViewInit} from '@angular/core';
 import { Contatto } from '../interfaces/contatto';
 import { ContattiService } from '../contatti.service';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-dettaglio',
@@ -20,7 +19,7 @@ export class DettaglioComponent implements OnInit, AfterViewInit {
   @ViewChild("appdettaglio", {static: false}) appdettaglio;
   @ViewChild("appmodifica2", {static: false}) appmodifica2;
 
-  constructor(private contattiservice: ContattiService,public dialog: MatDialog) { }
+  constructor(private contattiservice: ContattiService) { }
 
   ngOnInit() {
   }
@@ -39,27 +38,17 @@ export class DettaglioComponent implements OnInit, AfterViewInit {
     this.appmodifica2.nativeElement.style.display = 'none';
     this.appdettaglio.nativeElement.style.display = 'block';
   }
-  // openDialog(): void {
-  //   const dialogRef = this.dialog.open(DialogOverviewExampleDialog, {
-  //     width: '250px',
-  //     data: {name: this.name, animal: this.animal}
-  //   });
-  //
-  //   dialogRef.afterClosed().subscribe(result => {
-  //     console.log('The dialog was closed');
-  //     this.animal = result;
-  //   });
-  // }
   eliminaContatto(id:string) {
     console.log(id);
-
-    this.contattiservice.deleteContatto(id).subscribe(
-      (res) => {
-        console.log(res);
-        // this.aggiornamentoOk = true;
-        this.deleted.emit(this.datiIn);
-      },
-      (err) => console.log(err)
-    );
+    if(confirm("Eliminare definitivamente il contatto "+this.datiIn.nome+" "+this.datiIn.cognome+ "?")) {
+      this.contattiservice.deleteContatto(id).subscribe(
+        (res) => {
+          console.log(res);
+          // this.aggiornamentoOk = true;
+          this.deleted.emit(this.datiIn);
+        },
+        (err) => console.log(err)
+      );
+    }
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import {Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef} from '@angular/core';
 import { Contatto } from '../interfaces/contatto';
 import { ContattiService } from '../contatti.service';
 // form
@@ -20,7 +20,7 @@ export class Modifica2Component implements OnInit {
   // il nome della variabile formModifica presente nel template è di tipo FormGroup
   formModifica: FormGroup;
 
-  constructor(private contattiservice: ContattiService) { }
+  constructor(private contattiservice: ContattiService, private cd: ChangeDetectorRef) { }
 
   ngOnInit() {
 
@@ -30,10 +30,30 @@ export class Modifica2Component implements OnInit {
       cognome: new FormControl('',[Validators.required]),
       telefono: new FormControl('',[Validators.required]),
       email: new FormControl('',[Validators.required,Validators.email]),
-      foto: new FormControl(),
+      file: new FormControl(null, [Validators.required]),
     });
   }
+
+  onFileChange(event) {
+    const reader = new FileReader();
+
+    if(event.target.files && event.target.files.length) {
+      const [file] = event.target.files;
+      reader.readAsDataURL(file);
+
+      reader.onload = () => {
+        this.formModifica.patchValue({
+          file: reader.result
+        });
+
+        // need to run CD since file load runs outside of zone
+        this.cd.markForCheck();
+      };
+    }
+  }
+
   onSubmit() {
+    console.log(this.formModifica.value);
     this.contattiservice.updateContatto(this.formModifica.value).subscribe(
       (res) => {
         console.log(res);

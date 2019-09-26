@@ -49,8 +49,9 @@ export class ContattiService {
     );
   }
   deleteContatto(idct:string): Observable<Contatto> {
-    return this.http.post<Contatto>(this.apiPostUrlElimina + '?id='+idct).pipe(
+    return this.http.get<Contatto>(this.apiPostUrlElimina + '?id='+idct).pipe(
       map(risposta => risposta),
+      // catchError(this.handleError<Contatto>('updateContatto'))
     );
   }
 }
