@@ -1,0 +1,56 @@
+<form [formGroup]="formNuovo" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+  <div class="container">
+    <div class="row">
+
+      <div class="col-5 col-xs-12">
+        <input type="file" name="foto">
+      </div>
+      <div class="col-5 col-xs-12">
+        <div>
+          <mat-form-field appearance="legacy">
+            <mat-label>Nome</mat-label>
+            <input matInput formControlName="nome">
+            <mat-icon matSuffix>person</mat-icon>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <mat-form-field appearance="legacy">
+            <mat-label>Cognome</mat-label>
+            <input matInput formControlName="cognome">
+            <mat-icon matSuffix>person</mat-icon>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field appearance="legacy">
+            <mat-label>Telefono</mat-label>
+            <input matInput formControlName="telefono">
+            <mat-icon matSuffix>phone</mat-icon>
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field appearance="legacy">
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email">
+            <mat-icon matSuffix>email</mat-icon>
+          </mat-form-field>
+        </div>
+
+      </div>
+
+      <div class="col-2 col-xs-12">
+        <div>
+          <button mat-mini-fab type="submit" [disabled]="formNuovo.invalid" class="mb-2">
+            <mat-icon>check</mat-icon>
+          </button>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</form>
+<h4 *ngIf="creazioneOk">Contatto creato con successo</h4>
+<p>
+  Form Value: {{ formNuovo.value | json }}
+</p>

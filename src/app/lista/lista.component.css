@@ -1,0 +1,11 @@
+.avatar-circle {
+  width:40px;
+  height:auto;
+  margin-right: 10px;
+}
+mat-expansion-panel-header {
+  padding-top: 35px;
+  padding-bottom: 35px;
+}
+mat-expansion-panel {
+}

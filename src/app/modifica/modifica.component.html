@@ -1,0 +1,72 @@
+<form [formGroup]="formModifica" #formModificaRef (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+  <div class="container">
+    <div class="row">
+
+      <div class="col-sm-5 col-xs-12">
+        <img src="http://www.silviafrediani.it/angularjs_app/images/uploads/{{contatto.foto}}" style="width:100px;height:auto;">
+        <input type="file" name="foto" (change)="onFileChange($event)">
+      </div>
+
+<!-- come mappare il contenuto della form sul modello dei dati? dobbiamo ricorrere al two-way data binding chiamando in causa la direttiva ngModel-->
+
+      <div class="col-sm-5 col-xs-12">
+        <div>
+          <mat-form-field appearance="legacy">
+            <mat-label>Nome</mat-label>
+            <input matInput formControlName="nome" value="{{contatto.nome}}" [(ngModel)]="contatto.nome">
+            <mat-icon matSuffix>person</mat-icon>
+          </mat-form-field>
+        </div>
+        <div *ngIf="formModifica.controls.nome.invalid">Il nome è obbligatorio!</div>
+
+        <div>
+          <mat-form-field appearance="legacy">
+            <mat-label>Cognome</mat-label>
+            <input matInput formControlName="cognome" value="{{contatto.cognome}}" [(ngModel)]="contatto.cognome">
+            <mat-icon matSuffix>person</mat-icon>
+          </mat-form-field>
+        </div>
+        <div *ngIf="formModifica.controls.cognome.invalid">Il cognome è obbligatorio!</div>
+
+        <div>
+          <mat-form-field appearance="legacy">
+            <mat-label>Telefono</mat-label>
+            <input matInput formControlName="telefono" value="{{contatto.telefono}}" [(ngModel)]="contatto.telefono">
+            <mat-icon matSuffix>phone</mat-icon>
+          </mat-form-field>
+        </div>
+        <div *ngIf="formModifica.controls.telefono.invalid">Il telefono è obbligatorio!</div>
+
+        <div>
+          <mat-form-field appearance="legacy">
+            <mat-label>Email</mat-label>
+            <input matInput formControlName="email" value="{{contatto.email}}" [(ngModel)]="contatto.email">
+            <mat-icon matSuffix>email</mat-icon>
+          </mat-form-field>
+        </div>
+        <div *ngIf="formModifica.controls.email.invalid">L'indirizzo è mancante o non valido</div>
+
+        <input formControlName="id" [(ngModel)]="contatto.id" name="id" type="hidden">
+
+      </div>
+
+      <div class="col-sm-2 col-xs-12 text-center">
+        <div>
+          <button mat-mini-fab type="submit" [disabled]="formModifica.pristine || formModifica.invalid" class="mb-2">
+            <mat-icon>check</mat-icon>
+          </button>
+        </div>
+        <div>
+          <button mat-mini-fab>
+            <mat-icon>delete_forever</mat-icon>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</form>
+<h4 *ngIf="aggiornamentoOk">Contatto aggiornato con successo</h4>
+<p>
+  Form Value: {{ formModifica.value | json }}
+</p>

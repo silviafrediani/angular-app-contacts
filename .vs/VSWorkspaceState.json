@@ -1,0 +1,12 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\src",
+    "\\src\\app",
+    "\\src\\app\\dettaglio",
+    "\\src\\app\\lista",
+    "\\src\\app\\modifica"
+  ],
+  "SelectedNode": "\\src\\app\\dettaglio\\dettaglio.component.ts",
+  "PreviewInSolutionExplorer": false
+}

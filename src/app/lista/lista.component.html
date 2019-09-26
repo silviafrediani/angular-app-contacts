@@ -1,0 +1,33 @@
+<!--passare dati al componente figlio:
+siamo nel template del componente padre, app-dettaglio è il selettore del componente figlio, datiIn è una variabile
+che appartiene al componente figlio marchiata con @Input(), mentre contatto appartiene al componente padre-->
+
+<!--angular material accordion-->
+<mat-accordion>
+  <mat-expansion-panel *ngFor="let contatto of listacontatti">
+    <mat-expansion-panel-header>
+      <img class="rounded-circle avatar-circle" src="http://www.silviafrediani.it/angularjs_app/images/uploads/{{contatto.foto}}">
+      <p>{{contatto.nome}} {{contatto.cognome}}</p>
+    </mat-expansion-panel-header>
+    <app-dettaglio [datiIn]="contatto" (deleted)="aggiornaVista($event)"></app-dettaglio>
+  </mat-expansion-panel>
+</mat-accordion>
+<div class="w-100 text-center">
+  <button mat-mini-fab (click)="nuovoContatto()" class="m-5">
+    <mat-icon>add</mat-icon>
+  </button>
+</div>
+
+
+
+<!--ng-bootstrap accordion-->
+<!--<ngb-accordion #acc="ngbAccordion" activeIds="ngb-panel-0">-->
+<!--  <ngb-panel title="{{contatto.nome}} {{contatto.cognome}}" *ngFor="let contatto of listacontatti">-->
+<!--    <ng-template ngbPanelContent>-->
+<!--      <app-dettaglio [datiIn]="contatto"></app-dettaglio>-->
+<!--    </ng-template>-->
+<!--  </ngb-panel>-->
+<!--</ngb-accordion>-->
+
+
+
