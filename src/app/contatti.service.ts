@@ -1,7 +1,7 @@
 // importo Injectable che permetterà ad Angular di "riconoscerla"
 // come classe da poter usare grazie al meccanismo del “Dependency Injection”.
 import { Injectable } from '@angular/core';
-// importo interface
+// importo interface (tipo di dato) Contatto
 import { Contatto } from './interfaces/contatto';
 // importo servizi http
 import { HttpClient, HttpHeaders } from '@angular/common/http';

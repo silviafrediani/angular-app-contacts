@@ -7,6 +7,7 @@ import { ModificaComponent } from './modifica/modifica.component';
 import { NuovoComponent } from './nuovo/nuovo.component';
 
 const routes: Routes = [
+  {path: '', component: ListaComponent},
   {path: 'lista', component: ListaComponent},
   {path: 'modifica/:id', component: ModificaComponent},
   {path: 'nuovo', component: NuovoComponent},

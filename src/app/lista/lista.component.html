@@ -10,6 +10,7 @@ che appartiene al componente figlio marchiata con @Input(), mentre contatto appa
       <p>{{contatto.nome}} {{contatto.cognome}}</p>
     </mat-expansion-panel-header>
     <app-dettaglio [datiIn]="contatto" (deleted)="aggiornaVista($event)"></app-dettaglio>
+    <app-modifica [contattoIn]="contatto" (updated)="modificaContatto2($event)"></app-modifica>
   </mat-expansion-panel>
 </mat-accordion>
 <div class="w-100 text-center">

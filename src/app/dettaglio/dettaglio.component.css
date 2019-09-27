@@ -7,3 +7,17 @@
   border-right:0;
   border-bottom: 1px solid lightgray;
 }
+.avatar {
+  border:1px solid lightgray;
+  padding:5px;
+  border-radius: 5px;
+  width: 120px;
+  height: auto;
+}
+.etichetta {
+  color:lightgray;
+  width: 100px;
+  display: inline-block;
+  text-align: right;
+  margin-right: 5px;
+}

@@ -1,12 +1,8 @@
-// questo componente è pensato per ricevere l'id del contatto come parametro dell'url
-// e visualizzarlo nella rotta /lista/[id]
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef} from '@angular/core';
 import { Contatto } from '../interfaces/contatto';
 import { ContattiService } from '../contatti.service';
 // form
-import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
-// importo questi 2 moduli per recuperare parametri da url
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-modifica',
@@ -16,58 +12,58 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 
 export class ModificaComponent implements OnInit {
 
-  // "guardo dentro" al DOM della vista e stabilisco come variabile (proprietà) della classe del componente il riferimento che nel template ho marchiato con #formModificaRef
-  // d'ora in poi ci posso accedere come this.formModificaRef.nativeElement
-  //@ViewChild("formModificaRef") formModificaRef;
+  @Input() contattoIn: Contatto;
+  // la proprietà updated contiene i valori del form in uscita
+  @Output() updated = new EventEmitter();
 
-  aggiornamentoOk: boolean = false;
-
-  idContatto: string;
-
+  canceled = false;
   contatto: Contatto;
-
   // il nome della variabile formModifica presente nel template è di tipo FormGroup
   formModifica: FormGroup;
 
-  constructor(private route: ActivatedRoute, private contattiservice: ContattiService, private fb: FormBuilder) { }
+  constructor(private contattiservice: ContattiService, private cd: ChangeDetectorRef) { }
 
   ngOnInit() {
 
-    //console.log(this.formModificaRef.nativeElement);
-
-    this.idContatto = this.route.snapshot.paramMap.get('id');
-    // passo alla funzione getContatto il parametro recuperato dall'url
-    this.getContatto(this.idContatto);
-
     this.formModifica = new FormGroup({
-      id: new FormControl(),
-      nome: new FormControl('',[Validators.required]),
-      cognome: new FormControl('',[Validators.required]),
-      telefono: new FormControl('',[Validators.required]),
-      email: new FormControl('',[Validators.required,Validators.email]),
-      foto: new FormControl(),
+      id: new FormControl(this.contattoIn.id),
+      nome: new FormControl(this.contattoIn.nome,[Validators.required]),
+      cognome: new FormControl(this.contattoIn.cognome,[Validators.required]),
+      telefono: new FormControl(this.contattoIn.telefono,[Validators.required]),
+      email: new FormControl(this.contattoIn.email,[Validators.required,Validators.email]),
+      file: new FormControl(null),
     });
   }
 
-  getContatto(idct:string) {
-    this.contattiservice.getContatto(idct).subscribe( risp => this.contatto = risp[0] );
-  }
-
   onFileChange(event) {
-    if (event.target.files.length > 0) {
-      const file = event.target.files[0];
-      this.formModifica.get('foto').setValue(file);
+    const reader = new FileReader();
+
+    if(event.target.files && event.target.files.length) {
+      const [file] = event.target.files;
+      reader.readAsDataURL(file);
+
+      reader.onload = () => {
+        this.formModifica.patchValue({
+          file: reader.result
+        });
+
+        // need to run CD since file load runs outside of zone
+        this.cd.markForCheck();
+      };
     }
   }
-
   onSubmit() {
-
+    console.log(this.formModifica.value);
     this.contattiservice.updateContatto(this.formModifica.value).subscribe(
-      (res) => { console.log(res); this.aggiornamentoOk = true; },
+      (res) => {
+        console.log(res);
+        // this.aggiornamentoOk = true;
+        // se l'aggiornamento del contatto avviene con successo mando in uscita (emetto) un evento con @Output ed EventEmitter
+        // che verrà ascoltato dal padre DettaglioComponent
+        this.updated.emit(this.formModifica.value);
+      },
       (err) => console.log(err)
     );
-
-    // this.submitted = true;
     console.log(this.formModifica.value);
 
     // stop here if form is invalid
@@ -75,5 +71,7 @@ export class ModificaComponent implements OnInit {
       return;
     }
   }
-
+  nascondiSezioneModifica() {
+    this.canceled = true;
+  }
 }

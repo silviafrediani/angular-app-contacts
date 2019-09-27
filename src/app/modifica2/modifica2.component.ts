@@ -16,6 +16,7 @@ export class Modifica2Component implements OnInit {
   // la proprietà updated contiene i valori del form in uscita
   @Output() updated = new EventEmitter();
 
+  canceled = false;
   contatto: Contatto;
   // il nome della variabile formModifica presente nel template è di tipo FormGroup
   formModifica: FormGroup;
@@ -25,15 +26,14 @@ export class Modifica2Component implements OnInit {
   ngOnInit() {
 
     this.formModifica = new FormGroup({
-      id: new FormControl(),
-      nome: new FormControl('',[Validators.required]),
-      cognome: new FormControl('',[Validators.required]),
-      telefono: new FormControl('',[Validators.required]),
-      email: new FormControl('',[Validators.required,Validators.email]),
-      file: new FormControl(null, [Validators.required]),
+      id: new FormControl(this.contattoIn.id),
+      nome: new FormControl(this.contattoIn.nome,[Validators.required]),
+      cognome: new FormControl(this.contattoIn.cognome,[Validators.required]),
+      telefono: new FormControl(this.contattoIn.telefono,[Validators.required]),
+      email: new FormControl(this.contattoIn.email,[Validators.required,Validators.email]),
+      file: new FormControl(null),
     });
   }
-
   onFileChange(event) {
     const reader = new FileReader();
 
@@ -51,7 +51,6 @@ export class Modifica2Component implements OnInit {
       };
     }
   }
-
   onSubmit() {
     console.log(this.formModifica.value);
     this.contattiservice.updateContatto(this.formModifica.value).subscribe(
@@ -70,5 +69,8 @@ export class Modifica2Component implements OnInit {
     if (this.formModifica.invalid) {
       return;
     }
+  }
+  nascondiSezioneModifica() {
+    this.canceled = true;
   }
 }

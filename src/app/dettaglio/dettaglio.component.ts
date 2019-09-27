@@ -1,4 +1,4 @@
-import {Component, ViewChild, Input, Output, EventEmitter, OnInit, AfterViewInit} from '@angular/core';
+import {Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { Contatto } from '../interfaces/contatto';
 import { ContattiService } from '../contatti.service';
 
@@ -8,35 +8,22 @@ import { ContattiService } from '../contatti.service';
   styleUrls: ['./dettaglio.component.css']
 })
 
-export class DettaglioComponent implements OnInit, AfterViewInit {
+export class DettaglioComponent implements OnInit {
   // marchio la proprietà datiIn, come d'entrata dal componente padre lista
   @Input() datiIn: Contatto;
   // marchio la proprietà deleted come di uscita per aggiornare la vista alla cancellazione di un contatto
   @Output() deleted = new EventEmitter();
 
-  // "guardo dentro" al DOM della vista e stabilisco come variabili (proprietà) della classe del componente i riferimenti che nel template ho marchiato con #
-  // d'ora in poi ci posso accedere come this.nomeElemento.nativeElement
-  @ViewChild("appdettaglio", {static: false}) appdettaglio;
-  @ViewChild("appmodifica2", {static: false}) appmodifica2;
+  @Input() mostraSezioneModifica = false;
 
   constructor(private contattiservice: ContattiService) { }
 
   ngOnInit() {
   }
-
-  ngAfterViewInit() {
-    this.appmodifica2.nativeElement.style.display = 'none';
-  }
   modificaContatto1() {
-    this.appmodifica2.nativeElement.style.display = 'block';
-    this.appdettaglio.nativeElement.style.display = 'none';
-  }
-  // metodo che viene richiamato quando questo componente che è in ascolto,
-  // riceve l'evento updated che viene scatenato dal figlio Modifica2
-  modificaContatto2(event) {
-    console.log(event);
-    this.appmodifica2.nativeElement.style.display = 'none';
-    this.appdettaglio.nativeElement.style.display = 'block';
+    // this.appmodifica2.nativeElement.style.display = 'block';
+    // this.appdettaglio.nativeElement.style.display = 'none';
+    this.mostraSezioneModifica = true;
   }
   eliminaContatto(id:string) {
     console.log(id);
